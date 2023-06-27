@@ -12,6 +12,7 @@
   "files": [
     "lib"
   ],
+  "readme": "README.md",
   "scripts": {
     "prepublishOnly": "pnpm run build",
     "prebuild": "rimraf lib",
