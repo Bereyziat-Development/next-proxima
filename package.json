@@ -13,11 +13,11 @@
     "lib"
   ],
   "scripts": {
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "prebuild": "rimraf lib",
     "build": "microbundle",
     "build:watch": "microbundle watch",
-    "publish": "changeset publish"
+    "release": "changeset publish"
   },
   "repository": {
     "type": "git",
