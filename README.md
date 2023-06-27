@@ -1,5 +1,3 @@
-> :warning: **Next has this feature built-in**: [If you're using Next.js 12.3 or higher, you don't have to use this library](https://nextjs.org/blog/next-12-3#remote-patterns-stable)
-
 <div align="center">
   <h1>Next Proxima</h1>
   <p>The name is basically stands for image proxy for Next.js. Makes it possible to use dynamic domains in next/image component.</p> 
