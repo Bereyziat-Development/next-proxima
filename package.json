@@ -58,5 +58,9 @@
     "user-agents": "^1.0.934",
     "next": "^10.0.0"
   },
-  "private": false
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
 }
