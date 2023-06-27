@@ -1,0 +1,60 @@
+{
+  "name": "@b-dev/next-proxima",
+  "version": "1.0.0",
+  "description": "Next.js image proxy. Makes it possible to bypass authenticated image and dynamic domains in next/image component",
+  "author": "Muhammad Zourdy <zourdy@bereyziat.dev> (https://github.com/zourdyzou)",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "main": "./lib/next-proxima.cjs",
+  "module": "./lib/next-proxima.module.js",
+  "unpkg": "./lib/next-proxima.umd.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "prebuild": "rimraf lib",
+    "build": "microbundle",
+    "build:watch": "microbundle watch",
+    "publish": "changeset publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bereyziat-Development/next-proxima.git"
+  },
+  "keywords": [
+    "nextjs",
+    "nextjs-plugin",
+    "nextjs-image",
+    "nextjs-image-authenticated"
+  ],
+  "bugs": {
+    "url": "https://github.com/Bereyziat-Development/next-proxima/issues"
+  },
+  "homepage": "https://github.com/Bereyziat-Development/next-proxima#readme",
+  "peerDependencies": {
+    "next": ">=10.0.0",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "@types/lodash.merge": "^4.6.6",
+    "@types/next": "^9.0.0",
+    "@types/node": "^16.0.0",
+    "@types/react": "^17.0.0",
+    "@types/user-agents": "^1.0.2",
+    "microbundle": "^0.15.0",
+    "prettier": "^2.3.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "lodash.merge": "^4.6.2",
+    "node-fetch": "^2.6.6",
+    "user-agents": "^1.0.934"
+  }
+}
