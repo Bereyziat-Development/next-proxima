@@ -57,5 +57,6 @@
     "node-fetch": "^2.6.6",
     "user-agents": "^1.0.934",
     "next": "^10.0.0"
-  }
+  },
+  "private": false
 }
