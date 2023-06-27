@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import fetch from 'isomorphic-unfetch'
+import fetch from 'node-fetch'
 import stream, { Stream } from 'stream'
 import merge from 'lodash.merge'
 import UserAgent from 'user-agents'
@@ -19,7 +19,9 @@ export function withImageProxy(passedOptions?: DeepPartial<Options>) {
   const options: Options = merge(defaultOptions, passedOptions)
 
   return async function (req: NextApiRequest, res: NextApiResponse) {
-    const imageUrl = req.query.imageUrl
+    const imageUrl = req.query.imageUrl as string;
+    const token = req.query.token as string;
+    const typeToken = req.query.typeToken as string;
 
     if (!imageUrl || (imageUrl && Array.isArray(imageUrl))) {
       res.status(400).send({ message: options.messages.wrongFormat })
@@ -33,7 +35,7 @@ export function withImageProxy(passedOptions?: DeepPartial<Options>) {
       return
     }
 
-    const imageBlob = await fetchImageBlob(imageUrl)
+    const imageBlob = await fetchImageBlob(imageUrl, `${typeToken} ${token}`)
 
     if (!imageBlob) {
       handleFallback(res, options)
@@ -44,10 +46,9 @@ export function withImageProxy(passedOptions?: DeepPartial<Options>) {
   }
 }
 
-function pipeImage(res: NextApiResponse, imageBlob: ReadableStream<Uint8Array>, options: Options) {
+function pipeImage(res: NextApiResponse, imageBlob: NodeJS.ReadableStream, options: Options) {
   const passThrough = new Stream.PassThrough()
-
-  stream.pipeline(imageBlob as unknown as NodeJS.ReadableStream, passThrough, (err) => {
+  stream.pipeline(imageBlob, passThrough, (err) => {
     if (err) {
       console.log(err)
       handleFallback(res, options)
@@ -65,10 +66,17 @@ function handleFallback(res: NextApiResponse, options: Options) {
   }
 }
 
-async function fetchImageBlob(url: string) {
-  return await fetch(url, {
-    headers: { 'user-agent': new UserAgent().toString() },
-  }).then((data) => data.body)
+async function fetchImageBlob(url: string, authorization: string) {
+  return fetch(url, {
+    headers: { 'user-agent': new UserAgent().toString(), 'Authorization': authorization },
+  })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch ${url}`)
+        }
+        return res.body
+      })
+      .catch((error: any) => console.error(error))
 }
 
 function isUrlWhitelisted(url: string, whitelistedPatterns: Options['whitelistedPatterns']) {
